@@ -23,7 +23,9 @@
   "homepage": "https://github.com/YATHARTH-77/cs218-multisig-BitRealm#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.0.7",
+    "@nomicfoundation/hardhat-ethers-chai-matchers": "^3.0.4",
     "@nomicfoundation/hardhat-ignition": "^3.1.1",
+    "@nomicfoundation/hardhat-ignition-ethers": "^3.1.1",
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.3",
     "@types/chai": "^5.2.3",
     "@types/chai-as-promised": "^8.0.2",
@@ -33,7 +35,9 @@
     "ethers": "^6.16.0",
     "forge-std": "github:foundry-rs/forge-std#v1.9.4",
     "hardhat": "^3.3.0",
+    "hardhat-gas-reporter": "^2.3.0",
     "mocha": "^11.7.5",
+    "solidity-coverage": "^0.8.17",
     "typescript": "~5.8.0"
   },
   "dependencies": {
