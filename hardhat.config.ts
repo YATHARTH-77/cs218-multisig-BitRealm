@@ -6,7 +6,6 @@ import hardhatMocha from "@nomicfoundation/hardhat-mocha";
 import hardhatEthersChaiMatchers from "@nomicfoundation/hardhat-ethers-chai-matchers";
 import hardhatNetworkHelpers from "@nomicfoundation/hardhat-network-helpers";
 export default defineConfig({
-
   plugins: [
     hardhatEthers,
     hardhatTypechain,
@@ -32,6 +31,10 @@ export default defineConfig({
     },
   },
   networks: {
+    localhost: {
+      type: "http",
+      url: "http://127.0.0.1:8545"
+    },
     hardhatMainnet: {
       type: "edr-simulated",
       chainType: "l1",

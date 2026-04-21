@@ -1,0 +1,74 @@
+//before
+    constructor(address[] memory _owners, uint _requiredApprovals) {
+        require(_owners.length > 0, "owners required");
+        require(_requiredApprovals > 0 && _requiredApprovals <= _owners.length, "invalid threshold");
+        for (uint i = 0; i < _owners.length; i++) {
+            address owner = _owners[i];
+            require(owner != address(0), "invalid owner");
+            require(!isOwner[owner], "owner not unique");
+
+            isOwner[owner] = true;
+            owners.push(owner);
+        }
+        requiredApprovals = _requiredApprovals;
+    }
+//after
+    constructor(address[] memory _owners, uint _requiredApprovals) {
+        require(_owners.length > 0, "owners required");
+        require(_requiredApprovals > 0 && _requiredApprovals <= _owners.length, "invalid threshold");
+        for (uint i = 0; i < _owners.length; ) {
+            address owner = _owners[i];
+            require(owner != address(0), "invalid owner");
+            require(!isOwner[owner], "owner not unique");
+            isOwner[owner] = true;
+            owners.push(owner);
+            unchecked {
+                i++;
+            }
+        }
+        requiredApprovals = _requiredApprovals;
+    }
+//change
+    In Solidity versions 0.8.0 and higher, the compiler automatically adds "safety checks" to all math 
+    operations to make sure numbers don't overflow (e.g., getting so big they break the integer limit).
+    
+    In our for loop, the variable i is just counting up to the length of your owners array.
+    Because a standard integer can hold a number up to 1.15×10771.15 \times 10^{77}1.15×1077,
+    it is mathematically impossible for i to overflow just by counting the number of owners.
+    By wrapping the increment in unchecked { ++i; }, we told the Ethereum Virtual Machine (EVM) 
+    to skip those useless math checks, which saved us 59 base deployment gas.
+
+
+//before
+    struct Transaction {
+        address to;
+        uint value;
+        bytes data;
+        bool executed;
+        uint approvalCount;
+    }
+
+//after
+    struct Transaction {
+        address to;
+        bool executed;
+        uint8 approvalCount;
+        uint value;
+        bytes data;
+    }
+
+//change
+    You will never have more than 255 owners on a multi-sig wallet, so 
+    approvalCount does not need to be a massive 32-byte uint256. We can
+    shrink it to a 1-byte uint8. If you group the small variables together,
+    Solidity packs them into a single slot.
+
+//before
+    uint public requiredApprovals;
+//after
+    uint public immutable requiredApprovals;
+//change
+    This tells the compiler to take the threshold number
+    and hardcode it directly into the contract's bytecode.
+    When executeTransaction runs, reading that number now
+    costs roughly 3 gas instead of 2,100.

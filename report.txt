@@ -1,0 +1,9 @@
+// why Ownable is not used
+
+    While the general project guidelines suggest using OpenZeppelin's Ownable for all projects, 
+    it was intentionally omitted from this specific contract. Ownable.sol enforces a strict 
+    Single-Owner architecture, which fundamentally contradicts the N-of-M multi-signature 
+    requirements of Project 10. Instead, a custom isOwner mapping was implemented to support 
+    an array of valid signatories. However, OpenZeppelin's ReentrancyGuard was strictly implemented 
+    to secure the executeTransaction external calls.
+
