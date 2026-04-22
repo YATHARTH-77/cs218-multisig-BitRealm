@@ -110,6 +110,37 @@ describe("MultiSigWallet", function () {
         });
     });
 
+    describe("getApprovers()", function () {
+        beforeEach(async function () {
+            await wallet.connect(addr1).submitTransaction(addr2.address, 100, "0x");
+        });
+
+        it("Returns an empty array initially", async function () {
+            const approvers = await wallet.getApprovers(0);
+            expect(approvers.length).to.equal(0);
+        });
+
+        it("Returns correct addresses after approvals", async function () {
+            await wallet.connect(addr1).approveTransaction(0);
+            await wallet.connect(addr2).approveTransaction(0);
+            
+            const approvers = await wallet.getApprovers(0);
+            expect(approvers.length).to.equal(2);
+            expect(approvers).to.include(addr1.address);
+            expect(approvers).to.include(addr2.address);
+        });
+
+        it("Removes address after revoking approval", async function () {
+            await wallet.connect(addr1).approveTransaction(0);
+            await wallet.connect(addr2).approveTransaction(0);
+            await wallet.connect(addr1).revokeApproval(0); // addr1 changes their mind
+            
+            const approvers = await wallet.getApprovers(0);
+            expect(approvers.length).to.equal(1);
+            expect(approvers[0]).to.equal(addr2.address);
+        });
+    });
+    
     describe("executeTransaction()", function () {
         beforeEach(async function () {
             await addr1.sendTransaction({
