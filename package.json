@@ -40,7 +40,6 @@
     "hardhat": "^3.4.0",
     "mocha": "^11.7.5",
     "npm": "^11.12.1",
-    "solidity-coverage": "^0.8.17",
     "viem": "^2.48.2"
   },
   "dependencies": {
