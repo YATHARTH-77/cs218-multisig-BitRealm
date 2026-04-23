@@ -419,6 +419,20 @@ export default function Page() {
               }}>
                 <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", flexShrink: 0 }} />
                 <span style={{ fontFamily: "monospace" }}>{short(wallet.address)}</span>
+                
+                {/* 🟢 BALANCE DISPLAY ENABLED HERE 🟢 */}
+                {wallet.balance && (
+                  <span style={{ 
+                    fontFamily: "monospace", 
+                    fontWeight: 600,
+                    color: "var(--text)", 
+                    borderLeft: "1px solid var(--border)", 
+                    paddingLeft: 8 
+                  }}>
+                    {wallet.balance} ETH
+                  </span>
+                )}
+
                 {wallet.chainId && (
                   <span style={{
                     fontSize: 10, padding: "1px 5px", borderRadius: 4,
