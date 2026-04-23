@@ -1,0 +1,104 @@
+{
+  "contracts": {
+    "contracts/Counter.sol:Counter": {
+      "sourceName": "contracts/Counter.sol",
+      "contractName": "Counter",
+      "proxyChain": [],
+      "deployment": {
+        "min": 155163,
+        "max": 155163,
+        "avg": 155163,
+        "median": 155163,
+        "count": 17,
+        "runtimeSize": 473
+      },
+      "functions": {
+        "x": {
+          "min": 23466,
+          "max": 23466,
+          "avg": 23466,
+          "median": 23466,
+          "count": 1
+        }
+      }
+    },
+    "contracts/MultiSigWallet.sol:MultiSigWallet": {
+      "sourceName": "contracts/MultiSigWallet.sol",
+      "contractName": "MultiSigWallet",
+      "proxyChain": [],
+      "deployment": {
+        "min": 2027949,
+        "max": 2027949,
+        "avg": 2027949,
+        "median": 2027949,
+        "count": 17,
+        "runtimeSize": 8102
+      },
+      "functions": {
+        "approveTransaction": {
+          "min": 57949,
+          "max": 75049,
+          "avg": 69787,
+          "median": 75049,
+          "count": 13
+        },
+        "executeTransaction": {
+          "min": 73450,
+          "max": 90517,
+          "avg": 81984,
+          "median": 81984,
+          "count": 2
+        },
+        "getApprovers": {
+          "min": 43170,
+          "max": 44676,
+          "avg": 43932,
+          "median": 43949,
+          "count": 3
+        },
+        "getTransaction": {
+          "min": 36038,
+          "max": 36038,
+          "avg": 36038,
+          "median": 36038,
+          "count": 2
+        },
+        "getTransactionCount": {
+          "min": 23537,
+          "max": 23537,
+          "avg": 23537,
+          "median": 23537,
+          "count": 1
+        },
+        "owners": {
+          "min": 26136,
+          "max": 26136,
+          "avg": 26136,
+          "median": 26136,
+          "count": 1
+        },
+        "requiredApprovals": {
+          "min": 23489,
+          "max": 23489,
+          "avg": 23489,
+          "median": 23489,
+          "count": 1
+        },
+        "revokeApproval": {
+          "min": 32693,
+          "max": 36066,
+          "avg": 34380,
+          "median": 34380,
+          "count": 2
+        },
+        "submitTransaction": {
+          "min": 102595,
+          "max": 103044,
+          "avg": 102642,
+          "median": 102595,
+          "count": 12
+        }
+      }
+    }
+  }
+}
