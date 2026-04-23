@@ -5,7 +5,7 @@ import hardhatTypechain from "@nomicfoundation/hardhat-typechain";
 import hardhatMocha from "@nomicfoundation/hardhat-mocha";
 import hardhatEthersChaiMatchers from "@nomicfoundation/hardhat-ethers-chai-matchers";
 import hardhatNetworkHelpers from "@nomicfoundation/hardhat-network-helpers";
-import "solidity-coverage";
+// import "solidity-coverage";
 
 export default defineConfig({
   plugins: [
