@@ -56,3 +56,7 @@ The project is built using **Hardhat v3 (ESM)** and utilizes **Hardhat Ignition*
    ```bash
    npx hardhat ignition deploy ignition/modules/MultiSigWallet.ts --network localhost
    ```
+   in same 2nd terminal after above command
+   ```bash
+   npx hardhat run scripts/fund.ts --network localhost
+   ```
