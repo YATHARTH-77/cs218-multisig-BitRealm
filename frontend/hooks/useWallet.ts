@@ -1,11 +1,12 @@
 "use client";
 import { useState, useCallback } from "react";
-import { BrowserProvider, JsonRpcSigner } from "ethers";
+import { BrowserProvider, JsonRpcSigner, formatEther } from "ethers";
 
 export type WalletState = {
   provider: BrowserProvider | null;
   signer: JsonRpcSigner | null;
   address: string | null;
+  balance: string | null; // <-- ADDED THIS
   chainId: number | null;
   connecting: boolean;
   error: string | null;
@@ -16,6 +17,7 @@ export function useWallet() {
     provider: null,
     signer: null,
     address: null,
+    balance: null, // <-- ADDED THIS
     chainId: null,
     connecting: false,
     error: null,
@@ -32,15 +34,20 @@ export function useWallet() {
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
       const address = await signer.getAddress();
+      
+      // <-- ADDED BALANCE FETCHING -->
+      const rawBalance = await provider.getBalance(address);
+      const balance = parseFloat(formatEther(rawBalance)).toFixed(4); // Formats to 4 decimal places
+      
       const network = await provider.getNetwork();
-      setState({ provider, signer, address, chainId: Number(network.chainId), connecting: false, error: null });
+      setState({ provider, signer, address, balance, chainId: Number(network.chainId), connecting: false, error: null });
     } catch (err: any) {
       setState((s) => ({ ...s, connecting: false, error: err?.message ?? "Connection failed" }));
     }
   }, []);
 
   const disconnect = useCallback(() => {
-    setState({ provider: null, signer: null, address: null, chainId: null, connecting: false, error: null });
+    setState({ provider: null, signer: null, address: null, balance: null, chainId: null, connecting: false, error: null });
   }, []);
 
   return { ...state, connect, disconnect };
