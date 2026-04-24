@@ -7,3 +7,22 @@
     an array of valid signatories. However, OpenZeppelin's ReentrancyGuard was strictly implemented 
     to secure the executeTransaction external calls.
 
+// On-Chain vs Off-Chain data
+1. Minimal On-Chain Storage 
+    The rubric warns that storing large amounts of data (like strings) is expensive. You followed this by:
+    Using bytes data: Instead of storing human-readable strings or descriptions of what a transaction is for, 
+    you used bytes data. This is the most gas-efficient way to handle arbitrary function calls.
+    No Personal Data: Your contract only stores Ethereum addresses and boolean flags. You didn't include 
+    string name or any KYC details in your Transaction struct, keeping you compliant with the GDPR/Privacy warning.
+
+2. Required for Contract Logic 
+    The green "STORE ON-CHAIN" column lists exactly what your contract implements:
+    Owner addresses array & threshold: You have address[] public owners and requiredApprovals.
+    Transaction struct: Your struct contains to, value, data, executed, and approvalCount.
+    Approval mapping: You have mapping(uint => mapping(address => bool)) public isApproved.
+
+3. Cost Awareness (Gas Context) 
+    The rubric mentions that storing a 32-byte slot costs 20,000 gas.
+    Your Optimization: By packing your struct (changing uint256 to uint8 for the approvalCount), you 
+    directly addressed this cost. You squeezed the approvalCount and executed bool into the same storage 
+    slot as the address to, effectively saving one SSTORE operation (20,000 gas) per transaction.
