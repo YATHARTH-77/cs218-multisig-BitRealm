@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import hre from "hardhat";
-const { ethers } = await hre.network.create();
 
 describe("MultiSigWallet", function () {
     let wallet: any;
@@ -8,8 +7,12 @@ describe("MultiSigWallet", function () {
     let addr1: any, addr2: any, addr3: any, nonOwner: any;
     let owners: string[];
     const REQUIRED_APPROVALS = 2;
+    let ethers: any;
 
     beforeEach(async function () {
+        const network = await hre.network.getOrCreate();
+        ethers = network.ethers;
+
         [addr1, addr2, addr3, nonOwner] = await ethers.getSigners();
         owners = [addr1.address, addr2.address, addr3.address];
 
@@ -54,7 +57,7 @@ describe("MultiSigWallet", function () {
         it("Allows owner to submit transaction", async function () {
             await expect(wallet.connect(addr1).submitTransaction(addr2.address, 100, "0x"))
                 .to.emit(wallet, "SubmitTransaction");
-            
+
             const txCount = await wallet.getTransactionCount();
             expect(txCount).to.equal(1);
         });
@@ -141,9 +144,9 @@ describe("MultiSigWallet", function () {
             await wallet.connect(addr1).submitTransaction(addr2.address, ethers.parseEther("1.0"), "0x");
             await wallet.connect(addr1).approveTransaction(0);
             await wallet.connect(addr2).approveTransaction(0);
-            
+
             await wallet.connect(addr1).executeTransaction(0);
-            
+
             await expect(wallet.connect(addr2).executeTransaction(0)).to.be.revertedWith("tx already executed");
         });
     });
