@@ -182,4 +182,11 @@ contract MultiSigWallet is ReentrancyGuard {
         
         emit Executed(msg.sender, _txId);
     }
+
+    /// @notice Retrieves the complete list of multi-signature wallet owners
+    /// @dev Solidity's default getter for a public array only returns a single element by index
+    /// @return An array containing the addresses of all registered owners
+    function getOwners() public view returns (address[] memory) {
+        return owners;
+    }
 }

@@ -111,7 +111,7 @@ function TxCard({ tx, required, isOwner, onApprove, onRevoke, onExecute }: {
       {/* Destination */}
       <div className="tx-to">
         <span className="tx-to-label">TO</span>
-        <span className="tx-to-addr">{short(tx.to)}</span>
+        <span className="tx-to-addr">{(tx.to)}</span>
         <CopyBtn text={tx.to} />
       </div>
 
@@ -171,10 +171,38 @@ function TxCard({ tx, required, isOwner, onApprove, onRevoke, onExecute }: {
       )}
 
       {tx.executed && (
-        <div className="tx-done">
-          <CheckCircle2 size={11} />
-          <span>Transaction executed successfully</span>
-        </div>
+        <>
+          <div className="tx-done">
+            <CheckCircle2 size={11} />
+            <span>Transaction executed successfully</span>
+          </div>
+
+          {(tx.hash || tx.blockNumber) && (
+            <div className="tx-meta">
+
+              {tx.hash && (
+                <div className="tx-meta-row">
+                  <span className="tx-meta-label">Hash</span>
+                  <a
+                    href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
+                    target="_blank"
+                    className="tx-link"
+                  >
+                    {short(tx.hash)}
+                  </a>
+                </div>
+              )}
+
+              {tx.blockNumber && (
+                <div className="tx-meta-row">
+                  <span className="tx-meta-label">Block</span>
+                  <span className="tx-meta-value">{tx.blockNumber}</span>
+                </div>
+              )}
+
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -216,7 +244,7 @@ function SubmitForm({ onSubmit, disabled }: {
         />
       </div>
 
-      <div className="field-row">
+      <div className="field-column">
         <div className="field">
           <label className="field-label">Value (ETH)</label>
           <input
@@ -302,7 +330,7 @@ export default function Page() {
             <>
               <div className="wallet-pill">
                 <span className="wallet-dot" />
-                <span className="wallet-addr">{short(wallet.address)}</span>
+                <span className="wallet-addr">{wallet.address}</span>
                 {wallet.chainId && <span className="chain-badge">#{wallet.chainId}</span>}
                 {isOwner && <span className="owner-badge">owner</span>}
               </div>
@@ -364,6 +392,7 @@ export default function Page() {
 
             {/* Stats */}
             <div className="stats-row">
+              <StatCard icon={<Wallet size={15} />} label="Vault Balance" value={ms.balance || "0.00"} sub="ETH" accent="#3b82f6" />
               <StatCard icon={<Users size={15} />} label="Owners" value={ms.owners.length || "—"} accent="#a78bfa" />
               <StatCard icon={<ShieldCheck size={15} />} label="Threshold" value={ms.required || "—"} sub={ms.owners.length ? ` / ${ms.owners.length}` : ""} accent="#f59e0b" />
               <StatCard icon={<Hash size={15} />} label="Total TXs" value={ms.txs.length} sub={pendingCount > 0 ? `  ${pendingCount} pending` : ""} accent="#34d399" />
@@ -411,7 +440,7 @@ export default function Page() {
                         return (
                           <div key={o} className={`owner-row ${me ? "owner-me" : ""}`}>
                             <span className={`owner-dot ${me ? "owner-dot-me" : ""}`} />
-                            <span className="owner-addr">{short(o)}</span>
+                            <span className="owner-addr">{o}</span>
                             <CopyBtn text={o} />
                             {me && <span className="you-tag">you</span>}
                           </div>
@@ -594,7 +623,7 @@ const CSS = `
   .btn-connect:disabled { opacity: 0.5; }
 
   /* ── Main ── */
-  .main { max-width: 1060px; margin: 0 auto; padding: 28px 24px; position: relative; z-index: 1; }
+  .main {   width: 100%; margin: 0 auto; padding: 28px 24px; position: relative; z-index: 1; }
 
   /* ── Landing ── */
   .landing { display: flex; flex-direction: column; align-items: center; gap: 56px; padding-top: 60px; }
@@ -654,7 +683,7 @@ const CSS = `
   /* ── Dashboard ── */
   .dashboard { display: flex; flex-direction: column; gap: 20px; }
 
-  .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
   .stat-card {
     position: relative; overflow: hidden;
     display: flex; align-items: center; gap: 14px;
@@ -691,7 +720,7 @@ const CSS = `
   }
 
   /* Dashboard grid */
-  .dashboard-grid { display: grid; grid-template-columns: 230px 1fr; gap: 16px; align-items: start; }
+  .dashboard-grid { display: grid; grid-template-columns: 400px 1fr; gap: 16px; align-items: start; }
   .left-col { display: flex; flex-direction: column; gap: 12px; }
   .right-col { display: flex; flex-direction: column; gap: 14px; }
 
@@ -793,11 +822,47 @@ const CSS = `
   /* ── TX Grid ── */
   .tx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .tx-skeleton-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* ── TX META ── */
+.tx-meta {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
+.tx-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tx-meta-label {
+  color: var(--text-3);
+}
+
+.tx-meta-value {
+  color: var(--text-2);
+}
+
+.tx-link {
+  color: var(--amber);
+  text-decoration: none;
+}
+
+.tx-link:hover {
+  text-decoration: underline;
+}
   /* ── TX Card ── */
   .tx-card {
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; gap: 10px;
+    justify-content: space-between; min-height: 170px;
     padding: 14px 15px; border-radius: var(--radius);
     background: var(--surface-1); border: 1px solid var(--border);
     transition: border-color .2s, transform .15s;
@@ -953,4 +1018,77 @@ const CSS = `
 
   @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   .spin { animation: spin 1s linear infinite; }
+
+  /* ── Responsive Media Queries ── */
+
+/* Tablet & Smaller Desktop */
+@media (max-width: 992px) {
+  /* Stack the dashboard sidebar and main content */
+  .dashboard-grid { 
+    grid-template-columns: 1fr; 
+  }
+  
+  /* Make stats wrap nicely instead of squishing */
+  .stats-row { 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  /* Reduce global padding */
+  .topbar { padding: 0 16px; }
+  .main { padding: 20px 16px; }
+  
+  /* Scale down the hero section */
+  .hero-title { font-size: 36px; }
+  .hero-desc { font-size: 14px; }
+  .landing { gap: 40px; padding-top: 30px; }
+
+  /* Stack all main layout grids */
+  .steps-grid, 
+  .tx-grid, 
+  .tx-skeleton-grid, 
+  .field-row { 
+    grid-template-columns: 1fr; 
+  }
+
+  /* Force stats to a single column on mobile */
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Optimize the topbar for limited width */
+  .logo-sub { display: none; } /* Hide the sub-logo text */
+  .wallet-addr { display: none; } /* Hide the wallet address hash, leave the chain badge/dot */
+  .wallet-pill { padding: 6px 10px; }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+  .hero-title { font-size: 32px; }
+  
+  /* Make the hero connect button full width */
+  .btn-connect-hero { 
+    width: 100%; 
+    justify-content: center; 
+  }
+
+  /* Stack the transaction action buttons (Approve/Revoke/Execute) */
+  .tx-actions { 
+    flex-wrap: wrap; 
+  }
+  .btn-approve, 
+  .btn-revoke, 
+  .btn-execute { 
+    flex-basis: 100%; 
+  }
+
+  /* Adjust transaction header text size to prevent overflow */
+  .tx-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
 `;
