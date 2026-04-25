@@ -1,7 +1,7 @@
 // src/lib/contract.ts
 
 // This is your LIVE Sepolia Testnet Address! 🚀
-export const CONTRACT_ADDRESS = "0x6b5E5B84C2Ce587DEdC091C0605caD4803b05799";
+export const CONTRACT_ADDRESS = "0x90a33DfA3FDbFC86C116f63E097a1558cc1D783d";
 
 // Human-Readable ABI - Ethers.js parses this perfectly!
 export const MULTISIG_ABI = [
