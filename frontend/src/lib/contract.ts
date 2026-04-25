@@ -1,7 +1,7 @@
 // src/lib/contract.ts
 
-// This is the default deterministic address Hardhat uses for the first deployed contract.
-export const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+// This is your LIVE Sepolia Testnet Address! 🚀
+export const CONTRACT_ADDRESS = "0x6b5E5B84C2Ce587DEdC091C0605caD4803b05799";
 
 // Human-Readable ABI - Ethers.js parses this perfectly!
 export const MULTISIG_ABI = [

@@ -1,15 +1,18 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
 export default buildModule("MultiSigWalletModule", (m) => {
-  // Use the first 3 accounts from the network as owners
-  const owner1 = m.getAccount(0);
-  const owner2 = m.getAccount(1);
-  const owner3 = m.getAccount(2);
+  // Define the exact MetaMask addresses of your owners.
+  const OWNERS = [
+    "0xFcF8bE0f7B50268678231dB7eE38c7c3dB74cd3c",          // Owner 1 (Your Sepolia Deployer)
+    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8", // Owner 2 (Dummy testnet address)
+    "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"  // Owner 3 (Dummy testnet address)
+  ];
 
-  const owners = [owner1, owner2, owner3];
-  const requiredApprovals = 2n; 
+  // Set the M-of-N threshold
+  const THRESHOLD = 2;
 
-  const multiSig = m.contract("MultiSigWallet", [owners, requiredApprovals]);
+  // Deploy the contract with these exact arguments
+  const multiSig = m.contract("MultiSigWallet", [OWNERS, THRESHOLD]);
 
   return { multiSig };
 });
