@@ -181,4 +181,26 @@ describe("MultiSigWallet", function () {
             await expect(wallet.connect(addr2).executeTransaction(0)).to.be.revertedWith("tx already executed");
         });
     });
+    it("SECURITY: Defeats malicious reentrancy attacks", async function () {
+            // Deploy Attacker
+            const AttackerFactory = await ethers.getContractFactory("Attacker");
+            const attacker = await AttackerFactory.deploy(await wallet.getAddress());
+            const attackerAddress = await attacker.getAddress();
+            
+            // Submit TX to send 1 ETH to Attacker
+            await wallet.connect(addr1).submitTransaction(attackerAddress, ethers.parseEther("1.0"), "0x");
+            
+            // Get the txId (it should be 1 since we submitted one in the beforeEach block)
+            const txId = (await wallet.getTransactionCount()) - 1n;
+            await attacker.setTxId(txId);
+            
+            // Approve
+            await wallet.connect(addr1).approveTransaction(txId);
+            await wallet.connect(addr2).approveTransaction(txId);
+
+            // Execute - ReentrancyGuard should block the recursive call and revert safely
+            await expect(
+                wallet.connect(addr3).executeTransaction(txId)
+            ).to.be.revertedWith("tx failed");
+        });
 });
