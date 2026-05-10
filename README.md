@@ -117,10 +117,14 @@ To maintain a professional CI/CD pipeline and make evaluation seamless, this rep
 
 ## 🔑 Grader Credentials & Pre-Funded Accounts
 
-To evaluate Owner-only functionality, import specific private keys into your MetaMask wallet.
+To evaluate Owner-only functionality, import specific private keys into your MetaMask wallet from the PRIVATE_CREDENTIALS.txt.
 
-> 📄 Refer to **`PRIVATE_CREDENTIALS.txt`** or the secure Google Drive link:  
-> 👉 **[INSERT_YOUR_GOOGLE_DRIVE_LINK_HERE]**
+> 📄 Refer to **`PRIVATE_CREDENTIALS.txt`** which is present in the secure Google Drive link:  
+> 👉 **https://drive.google.com/drive/u/0/folders/19spfhhuWcdehtSJYV9rSDSoE3-bISsr3**
+>
+> 🎬 **Demo Videos** (also available on the same Google Drive):
+> - 📹 **Local Sandbox Demo** — Full walkthrough of the app running locally on Hardhat
+> - 📹 **Live Deployed Demo** — Full walkthrough of the live Vercel + Sepolia deployment
 
 ### Environment 1 — Local Sandbox Keys (`main` branch)
 
@@ -147,8 +151,8 @@ The application is **live on the Ethereum Sepolia testnet**.
 
 | Resource | Link |
 |----------|------|
-| 🌐 Live Web App | **[INSERT VERCEL LINK HERE]** |
-| 🔍 Verified Smart Contract | **[INSERT BLOCKSCOUT LINK HERE]** |
+| 🌐 Live Web App | **https://cs218-multisig-bit-realm-dyrr5roj1-yatharth-mauryas-projects.vercel.app/** |
+| 🔍 Verified Smart Contract | **https://eth-sepolia.blockscout.com/address/0x90a33DfA3FDbFC86C116f63E097a1558cc1D783d** |
 | 📂 Source Code | Switch to the `live-production` branch |
 
 **How to test:**
