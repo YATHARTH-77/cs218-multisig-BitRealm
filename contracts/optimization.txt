@@ -33,7 +33,7 @@
     operations to make sure numbers don't overflow (e.g., getting so big they break the integer limit).
     
     In our for loop, the variable i is just counting up to the length of your owners array.
-    Because a standard integer can hold a number up to 1.15×10771.15 \times 10^{77}1.15×1077,
+    Because a standard integer can hold a number up to 1.15×10^771.15,
     it is mathematically impossible for i to overflow just by counting the number of owners.
     By wrapping the increment in unchecked { ++i; }, we told the Ethereum Virtual Machine (EVM) 
     to skip those useless math checks, which saved us 59 base deployment gas.
