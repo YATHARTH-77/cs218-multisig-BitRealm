@@ -119,7 +119,7 @@ To maintain a professional CI/CD pipeline and make evaluation seamless, this rep
 
 To evaluate Owner-only functionality, import specific private keys into your MetaMask wallet from the PRIVATE_CREDENTIALS.txt.
 
-> 📄 Refer to **`PRIVATE_CREDENTIALS.txt`** which is present in the secure Google Drive link:  
+> 📄 Refer to **`PRIVATE_CREDENTIALS.txt`** which is present in the secure Google Drive link:
 > 👉 **https://drive.google.com/drive/u/0/folders/19spfhhuWcdehtSJYV9rSDSoE3-bISsr3**
 >
 > 🎬 **Demo Videos** (also available on the same Google Drive):
@@ -208,10 +208,24 @@ npx hardhat node
 npx hardhat ignition deploy ignition/modules/MultiSigWallet.ts --network localhost
 ```
 
-**Terminal 2** — Fund the contract:
+> 📋 **Note:** Copy the deployed contract address that prints in your terminal. You will need it for the next step!
+
+### Step 7 — Fund the Vault via MetaMask
+
+To fully test the `executeTransaction` functionality, the vault needs to hold a balance. You can manually deposit local test funds:
+
+1. Open MetaMask and ensure you are connected to the **Localhost 8545** network.
+2. Select one of the imported Hardhat Owner accounts (Hardhat automatically pre-funds these with 10,000 local ETH).
+3. Click **Send**, paste the **Contract Address** you just copied, and send `10 ETH`.
+4. Click **Confirm**. Your local vault is now funded!
+
+### Step 8 — Start the Frontend
+
 ```bash
-npx hardhat run scripts/fund.ts --network localhost
+npm run dev
 ```
+
+Open `http://localhost:3000` to interact with the fully deployed and funded local vault.
 
 ---
 
